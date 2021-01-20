@@ -1,65 +1,30 @@
 import { Component } from 'react';
-//import logo from './logo.svg';
-//import './App.css';
 
-class Subject extends Component{
-  render(){
-    return(
-      <header>
-        <h1>{this.props.title}</h1>
-        {this.props.sub}
-      </header>
-    );
-  }
-}
-
-class TOC extends Component{
-  render(){
-    var lists = [];
-    var data = this.props.data;
-    var i = 0;
-    while(i < data.length){
-      lists.push(<li key={data[i].id}><a href={"/content/"+data[i].id}>{data[i].title}</a></li>);
-      i = i + 1;
-    }
-    return(
-      <nav>
-        <ul>
-          {/*<li><a href="1.html">HTML</a></li>
-          <li><a href="2.html">WEB</a></li>
-          <li><a href="3.html">JS</a></li>*/}
-          {lists}
-        </ul>
-      </nav>
-    );
-  }
-}
-
-class Article extends Component{
-  render(){
-    return(
-      <article>
-        <h2>{this.props.title}</h2>
-        {this.props.desc}
-      </article>
-    );
-  }
-}
-
+import Content from './components/Content';
+import Subject from "./components/Subject";
+import TOC from "./components/TOC";
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      mode:'welcome',
       subject:{title:'WEB' , sub:'world wide web'},
+      welcome:{title:'Welcome' , desc:'Hello React'},
       contents:[
         {id:1, title:'HTML', desc:'HTML is HyperText ...'},
-        {id:1, title:'CSS', desc:'CSS is for design ...'},
-        {id:1, title:'JS', desc:'JS is for interactive ...'}
+        {id:2, title:'CSS', desc:'CSS is for design ...'},
+        {id:3, title:'JS', desc:'JS is for interactive ...'}
       ]
     }
   }
  render(){
+   console.log('app render');
+   var _title, _desc = null;
+   if(this.state.mode === 'welcome'){
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+   }
    return(
      <div className="App">
        {/*<Subject title="WEB" sub="hello, react!"></Subject>*/}
@@ -68,11 +33,11 @@ class App extends Component {
           sub={this.state.subject.sub}>
        </Subject>
        <TOC data={this.state.contents}></TOC>
-       <Article title="HTML" desc="HTML is HyperText Markup Language."></Article>
-       <Article title="text" desc="sample"></Article>
+       <Content title={_title} desc={_desc}></Content>
      </div>
    );
  }
 }
 
 export default App;
+
